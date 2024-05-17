@@ -1,0 +1,15 @@
+### 전체 포스트 조회
+GET http://localhost:8080/posts/findAll
+
+### 특정 코드로 포스트 조회
+GET http://localhost:8080/posts/findAll/1
+
+### 신규 포스트 등록
+POST http://localhost:8080/posts/registPost
+Content-Type: application/json
+
+{
+  "title": "새책",
+  "content": "새책내용",
+  "writer": "새책쓴사람"
+}
