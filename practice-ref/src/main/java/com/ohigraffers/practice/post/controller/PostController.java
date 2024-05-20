@@ -42,28 +42,33 @@ public class PostController {
     /* 1. 전체 포스트 조회 */
     /* Swagger 문서화 시 설명 어노테이션 작성 */
     /* RequestMapping 어노테이션 작성 */
-    @Operation(summary = "전체 포스트 조회")
+    @Operation(summary = "전체 포스트 조회", description = "포스트의 전체 목록을 조회합니다.")
     @GetMapping("/findAll")
     public ResponseEntity<ResponseMessage> findAllPosts() {
 
         /* 응답 데이터 설정 */
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
         /* Post 타입은 PostResponse 타입으로 변환해서 반환 */
+        List<PostResponse> postResponse = posts.stream()
+                .map(PostResponse::from)
+                .collect(Collectors.toList());
 
         /* hateoas 적용 */
-        List<EntityModel<Post>> postWithRel = posts.stream().map(
-             post ->
+        List<EntityModel<PostResponse>> postWithRel = postResponse.stream().map(
+                postResponses ->
                      EntityModel.of(
-                             post,
-                             linkTo(methodOn(PostController.class).findAllPosts()).withRel("posts")
+                             postResponses,
+                             linkTo(methodOn(PostController.class).findAllPosts()).withRel("posts"),
+                             linkTo(methodOn(PostController.class).findPostByCode(postResponses.getCode())).withSelfRel()
                      )
-        ).toList();
+        ).collect(Collectors.toList());
 
         /* ResponseEntity 반환 */
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("posts", postWithRel);
-        ResponseMessage responseMessage =new ResponseMessage(200, "조회성공", responseMap);
+        ResponseMessage responseMessage = new ResponseMessage(200, "조회성공", responseMap);
 
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
     }
@@ -71,23 +76,29 @@ public class PostController {
     /* 2. 특정 코드로 포스트 조회 */
     /* Swagger 문서화 시 설명 어노테이션 작성 */
     /* RequestMapping 어노테이션 작성 */
-    @Operation(summary = "특정 코드로 포스트 조회")
+    @Operation(summary = "특정 코드로 포스트 조회", description = "입력한 번호의 포스트를 조회합니다.")
     @GetMapping("/findAll/{code}")
     public ResponseEntity<ResponseMessage> findPostByCode(@PathVariable Long code) {
 
         /* 응답 데이터 설정 */
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
         /* Post 타입은 PostResponse 타입으로 변환해서 반환 */
-
-
-        /* hateoas 적용 */
         Post foundPost = posts.stream().filter(post -> post.getCode() == code)
                 .collect(Collectors.toList()).get(0);
+        PostResponse postResponse = PostResponse.from(foundPost);
+
+        /* hateoas 적용 */
+        EntityModel<PostResponse> postWithRel = EntityModel.of(
+                postResponse,
+                linkTo(methodOn(PostController.class).findAllPosts()).withRel("posts"),
+                linkTo(methodOn(PostController.class).findPostByCode(code)).withSelfRel()
+        );
 
         /* ResponseEntity 반환 */
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("posts", foundPost);
+        responseMap.put("posts", postWithRel);
         ResponseMessage responseMessage = new ResponseMessage(200, "조회성공", responseMap);
 
         return ResponseEntity.ok().headers(headers).body(responseMessage);
@@ -96,7 +107,7 @@ public class PostController {
     /* 3. 신규 포스트 등록 */
     /* Swagger 문서화 시 설명 어노테이션 작성 */
     /* RequestMapping 어노테이션 작성 */
-    @Operation(summary = "신규 포스트 등록")
+    @Operation(summary = "포스트 등록", description = "새로운 포스트를 등록합니다.")
     @PostMapping("/registPost")
    public ResponseEntity<Void> registPost(@RequestBody PostCreateRequest newPost) {
 
@@ -117,27 +128,37 @@ public class PostController {
    /* 4. 포스트 제목과 내용 수정 */
    /* Swagger 문서화 시 설명 어노테이션 작성 */
    /* RequestMapping 어노테이션 작성 */
+    @Operation(summary = "포스트 수정", description = "포스트의 제목과 내용을 수정합니다.")
     @PutMapping("/modifyPost/{code}")
     public ResponseEntity<Void> modifyPost(@PathVariable Long code, @RequestBody PostUpdateRequest postUpdateRequest) {
 
         /* 리스트에서 찾아서 수정 */
-        Long newCode = posts.stream().filter(post -> post.getCode() == code).toList().get(0);
+        Optional<Post> optionalPost = posts.stream().filter(post -> post.getCode().equals(code)).findFirst();
         /* 수정 메소드 활용 */
-
-
+        if(optionalPost.isPresent()) {
+            Post foundPost = optionalPost.get();
+            foundPost.modifyTitleAndContent(postUpdateRequest.getTitle(), postUpdateRequest.getContent());
+        }
         /* ResponseEntity 반환 */
-        return null;
+        return ResponseEntity
+                .created(URI.create("/posts/modifyPost" + code))
+                .build();
     }
 
     /* 5. 포스트 삭제 */
     /* Swagger 문서화 시 설명 어노테이션 작성 */
     /* RequestMapping 어노테이션 작성 */
-    public ResponseEntity<Void> removeUser(/* 필요 매개변수 선언 */) {
+    @Operation(summary = "포스트 삭제", description = "조회한 번호의 포스트를 삭제 합니다.")
+    @DeleteMapping("/deletePost/{code}")
+    public ResponseEntity<Void> removeUser(@PathVariable Long code) {
 
         /* 리스트에서 찾아서 삭제 */
+        Post foundPost = posts.stream().filter(post -> post.getCode() == code).toList().get(0);
+        posts.remove(foundPost);
 
         /* ResponseEntity 반환 */
-        return null;
+        return ResponseEntity
+                .noContent()
+                .build();
     }
-
 }

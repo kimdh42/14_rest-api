@@ -13,3 +13,15 @@ Content-Type: application/json
   "content": "새책내용",
   "writer": "새책쓴사람"
 }
+
+### 포스트 제목과 내용 수정
+PUT http://localhost:8080/posts/modifyPost/1
+Content-Type: application/json
+
+{
+  "title": "제목수정",
+  "content": "내용수정"
+}
+
+### 포스트 삭제
+DELETE http://localhost:8080/posts/deletePost/5

@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f32340a-e355-4465-8297-9f8362e59c88" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../chap01-rest-api/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../chap01-rest-api/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chap01-rest-api/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../chap01-rest-api/src/main/resources/application.yml" afterDir="false" />
-    </list>
+    <list default="true" id="1f32340a-e355-4465-8297-9f8362e59c88" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,7 +51,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.Chap02RestApiPracticeApplication.executor": "Run",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/dev/lecture_code/rest-api/cahp02-practice-ref",
+    "last_opened_file_path": "C:/dev/lecture_code/rest-api/practice-ref",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,9 +61,6 @@
   }
 }]]></component>
   <component name="RunManager" selected="HTTP Request.post | 전체 포스트 조회">
-    <configuration name="post | 특정 코드로 포스트 조회" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Http/post.http" index="2" requestIdentifier="특정 코드로 포스트 조회" runType="Run single request">
-      <method v="2" />
-    </configuration>
     <configuration name="post | 신규 포스트 등록 조회" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Http/post.http" index="4" requestIdentifier="신규 포스트 등록 조회" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -74,6 +68,9 @@
       <method v="2" />
     </configuration>
     <configuration name="post | 신규 포스트 등록" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Http/post.http" index="3" requestIdentifier="신규 포스트 등록" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="post | 특정 코드로 포스트 조회" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Http/post.http" index="2" requestIdentifier="특정 코드로 포스트 조회" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="Chap02RestApiPracticeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
@@ -93,8 +90,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="HTTP Request.post | 전체 포스트 조회" />
-        <item itemvalue="HTTP Request.post | 신규 포스트 등록" />
-        <item itemvalue="HTTP Request.post | 신규 포스트 등록 조회" />
         <item itemvalue="HTTP Request.post | 특정 코드로 포스트 조회" />
         <item itemvalue="Spring Boot.Chap02RestApiPracticeApplication" />
       </list>
@@ -117,6 +112,7 @@
       <option name="presentableId" value="Default" />
       <updated>1715918927499</updated>
       <workItem from="1715918928508" duration="11765000" />
+      <workItem from="1716183588786" duration="14000" />
     </task>
     <servers />
   </component>

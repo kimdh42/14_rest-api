@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>제품번호</th>
+            <th>제품이름</th>
+            <th>제품원가</th>
+            <th>출시일</th>
+            <th>할인율</th>
+            <th>판매량</th>
+            <th>재고량</th>
+            <th>제품분류코드</th>
+            <th>생산상태</th>
+        </tr>
+        <tr th:each="product : ${ productList }">
+            <th th:text="${ product.productCode }"></th>
+            <th th:text="${ product.productName }"></th>
+            <th th:text="${ product.originCost }"></th>
+            <th th:text="${ product.releaseDate }"></th>
+            <th th:text="${ product.discountRate }"></th>
+            <th th:text="${ product.salesQuantity }"></th>
+            <th th:text="${ product.stockQuantity }"></th>
+            <th th:text="${ product.categoryCode }"></th>
+            <th th:text="${ product.productionStatus }"></th>
+        </tr>
+    </table>
+
+    <div id="paging">
+        <!-- 맨앞 페이지로 이동 -->
+        <button th:onclick="'location.href=\'/product/list?page=' + ${ paging.startPage } + '\''">
+            ⏪
+        </button>
+
+        <!-- 이전 페이지로 이동 -->
+        <button th:onclick="'location.href=\'/product/list?page=' + ${ paging.currentPage - 1 } + '\''"
+                th:disabled="${ productList.first }">
+            ◀
+        </button>
+
+        <!-- 숫자 버튼 -->
+        <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage) }">
+            <button th:onclick="'location.href=\'/product/list?page=' + ${ page } + '\''"
+                    th:text="${ page }"
+                    th:disabled="${ paging.currentPage eq page }">
+
+            </button>
+        </th:block>
+        <!-- 다음 페이지로 이동 -->
+        <button th:onclick="'location.href=\'/product/list?page=' + ${ paging.currentPage + 1 } + '\''"
+                th:disabled="${ productList.last }">
+            ▶
+        </button>
+
+        <!-- 맨뒤 페이지로 이동 -->
+        <button th:onclick="'location.href=\'/product/list?page=' + ${ paging.endPage } + '\''">
+            ⏩
+        </button>
+
+    </div>
+</body>
+</html>
